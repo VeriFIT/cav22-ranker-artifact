@@ -22,8 +22,21 @@ ltl2dstar:
 roll:
   cmd: bin/roll-wrap.sh $1
 
-ranker:
-  cmd: bin/ranker-wrap.sh $1
+# ranker
+ranker:              # default
+  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red
 
-ranker-copyheur-backoff:
-  cmd: bin/ranker-wrap.sh $1 --preprocess=copyheur --backoff
+ranker-tacas:        # version from TACAS'22
+  cmd: bin/ranker-tacas-wrap.sh $1 --preprocess=copyheur
+
+ranker-iw-prune:     # simulation-based pruning of macrostate (from the submission) in the Miyano-Hayashi construction for inherently weak automata
+  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-prune-only
+
+ranker-iw-orig:      # original Miyano-Hayashi construction for inherently weak automata
+  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-orig-only
+
+ranker-sd-ncsb-lazy: # NCSB-Lazy (from PLDI'18) for semi-deterministic BAs
+  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --sd-ncsb-lazy-only
+
+ranker-sd-ncsb-maxrank:  # NCSB-MaxRank (from the submission) for semi-deterministic BAs
+  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --sd-ncsb-maxrank-only
