@@ -26,8 +26,8 @@ roll:
 ranker:              # default
   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red
 
-ranker-tacas:        # version from TACAS'22
-  cmd: bin/ranker-tacas-wrap.sh $1 --preprocess=copyheur
+ranker-tacas22:        # version from TACAS'22
+  cmd: bin/ranker-tacas22-wrap.sh $1 --preprocess=copyheur
 
 ranker-iw-prune:     # simulation-based pruning of macrostate (from the submission) in the Miyano-Hayashi construction for inherently weak automata
   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-prune-only
