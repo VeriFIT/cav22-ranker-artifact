@@ -1,5 +1,5 @@
 #!/bin/bash
-AUTFILT="autfilt"
+AUTFILT="bin/autfilt"
 RANKER="bin/ranker"
 
 # Check the number of command-line arguments
