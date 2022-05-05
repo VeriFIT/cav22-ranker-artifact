@@ -2,7 +2,6 @@
 
 # generation of results for the CAV'22 tool paper artifact
 
-import tabulate as tab
 import math
 
 from buchi_aux import *            # auxiliary functions for Buchi automata benchmarks
@@ -12,7 +11,6 @@ from buchi_aux import *            # auxiliary functions for Buchi automata benc
 # in seconds
 TIMEOUT = 300
 TIMEOUT_VAL = TIMEOUT * 1.1
-TIME_MIN = 0.01
 
 AUTOMATA_DIR="../automata"
 
@@ -74,29 +72,11 @@ interesting = [
 
 df_summary_random.loc[[x + '-States' for x in interesting]]
 
-# sanitize results (substitute timeouts with TIMEOUT_VAL and 0 states with 1)
-states_min = 1
 
-def sanitize_results(df, df_summary_states):
-  # min and max states
-  states_max = df_summary_states['max'].max()
-  states_timeout = states_max * 1.1
-
-  # sanitizing NAs
-  for col in df.columns:
-      if re.search('-States$', col):
-          df[col].fillna(states_timeout, inplace=True)
-          df[col].replace(0, states_min, inplace=True)  # to remove 0 (in case of log graph)
-
-      if re.search('-runtime$', col):
-          df[col].fillna(TIMEOUT_VAL, inplace=True)
-          df.loc[df[col] < TIME_MIN, col] = TIME_MIN  # to remove 0 (in case of log graph)
-
-  return df
-
-df_random = sanitize_results(df_random, df_summary_all)
-df_ltl = sanitize_results(df_ltl, df_summary_all)
-df_automizer = sanitize_results(df_automizer, df_summary_all)
+df_random = sanitize_results(df_random, df_summary_all, TIMEOUT_VAL)
+df_ltl = sanitize_results(df_ltl, df_summary_all, TIMEOUT_VAL)
+df_automizer = sanitize_results(df_automizer, df_summary_all, TIMEOUT_VAL)
+df_all = sanitize_results(df_all, df_summary_all, TIMEOUT_VAL)
 
 
 # plot graphs for ranker/rankerOld  and ranker/spot
@@ -105,3 +85,28 @@ scatplot3(df_random, df_ltl, df_automizer, {'x': "ranker-autfilt", 'y': "ranker-
 scatplot3(df_random, df_ltl, df_automizer, {'x': "ranker-autfilt", 'y': "spot-autfilt", 'max': 3000,
                                             'xname': "Ranker", 'yname': "Spot"}, save=True)
 
+
+print("\n")
+print("######################################################################")
+print("####                Table 2 (wins/losses)  - random               ####")
+print("######################################################################")
+print_win_table(df_random, df_summary_random, "ranker")
+print("\n")
+
+print("######################################################################")
+print("####                Table 2 (wins/losses)  - LTL                  ####")
+print("######################################################################")
+print_win_table(df_ltl, df_summary_ltl, "ranker")
+print("\n")
+
+print("######################################################################")
+print("####                Table 2 (wins/losses)  - Automizer            ####")
+print("######################################################################")
+print_win_table(df_automizer, df_summary_automizer, "ranker")
+print("\n")
+
+print("######################################################################")
+print("####                Table 2 (wins/losses)  - all                  ####")
+print("######################################################################")
+print_win_table(df_all, df_summary_all, "ranker")
+print("\n")

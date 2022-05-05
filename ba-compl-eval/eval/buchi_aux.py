@@ -7,6 +7,7 @@ import pandas as pd
 import re as re
 import mizani.formatters as mizani
 import plotnine as p9
+import tabulate as tab
 
 import evallib as el               # this contains auxiliary functionality for evaluation of experiments
 
@@ -181,3 +182,104 @@ def scatplot3(df1, df2, df3, params, color1='blue', color2='red', color3='green'
               dpi=1000)
 
     return pl
+
+
+# sanitize results (substitute timeouts with TIMEOUT_VAL and 0 states with 1)
+def sanitize_results(df, df_summary_states, timeout_val):
+  TIME_MIN = 0.01
+  # min and max states
+  states_min = 1
+  states_max = df_summary_states['max'].max()
+  states_timeout = states_max * 1.1
+
+  # sanitizing NAs
+  for col in df.columns:
+      if re.search('-States$', col):
+          df[col].fillna(states_timeout, inplace=True)
+          df[col].replace(0, states_min, inplace=True)  # to remove 0 (in case of log graph)
+
+      if re.search('-runtime$', col):
+          df[col].fillna(timeout_val, inplace=True)
+          df.loc[df[col] < TIME_MIN, col] = TIME_MIN  # to remove 0 (in case of log graph)
+
+  return df
+
+
+# comparing wins/loses
+def compute_wins(df, method):
+  all_methods = [
+                 "ranker",
+                 "ranker-tacas22",
+                 "piterman",
+                 # "schewe",
+                 "safra",
+                 "spot",
+                 "fribourg",
+                 "ltl2dstar",
+                 "seminator",
+                 "roll",
+                ]
+  suffix = "-autfilt-States"
+  method_suf = method + suffix
+  all_methods_suf = [m + suffix for m in all_methods]
+
+  states_timeout = df[all_methods_suf].max().max()
+
+  compare_methods = []
+  for m in all_methods_suf:
+    if (m != method_suf):
+      compare_methods += [(method_suf, m)]
+
+#  compare_methods.append(("ranker-nopost-States", "ranker-maxr-nopost-States"))
+#  compare_methods.append(("ranker-nopost-States", "schewe-States"))
+
+  dict_wins = {}
+  for left, right in compare_methods:
+        left_over_right = df[df[left] < df[right]]
+        right_timeouts = left_over_right[left_over_right[right] == states_timeout]
+
+        right_over_left = df[df[left] > df[right]]
+        left_timeouts = right_over_left[right_over_left[left] == states_timeout]
+
+        dict_wins[right] = {'wins': len(left_over_right),
+                            # 'winsTO': len(right_timeouts),
+                            'losses': len(right_over_left),
+                            # 'lossesTO': len(left_timeouts),
+                           }
+  return dict_wins
+
+def print_win_table(df, df_summary, method):
+  tab_wins = []
+  method_name = method + "-autfilt-States"
+  tab_wins.append([method,
+                   df_summary.loc[method_name]["mean"],
+                   df_summary.loc[method_name]["median"],
+                   "",
+                   # "",
+                   "",
+                   # "",
+                   df_summary.loc[method_name]["timeouts"],
+                  ])
+  dict_wins = compute_wins(df, method)
+  for key, val in dict_wins.items():
+    key_pretty = re.sub('-autfilt-States', '', key)
+    tab_wins.append([key_pretty,
+                     df_summary.loc[key]["mean"],
+                     df_summary.loc[key]["median"],
+                     val['wins'],
+                     # val['winsTO'],
+                     val['losses'],
+                     # val['lossesTO'],
+                     df_summary.loc[key]["timeouts"],
+                    ])
+  headers_wins = ["method",
+                  "mean",
+                  "median",
+                  "wins",
+                  # "wins-timeouts",
+                  "losses",
+                  # "losses-timeouts",
+                  "timeouts",
+                 ]
+  #table_to_file(tab_wins, headers_wins, out_prefix + "_table1right")
+  print(tab.tabulate(tab_wins, headers=headers_wins, tablefmt="github"))
