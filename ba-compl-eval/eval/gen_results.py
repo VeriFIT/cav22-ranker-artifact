@@ -233,3 +233,15 @@ print("####              Table 1 bottom - all            ####")
 print("######################################################")
 print_opt_table(df_sdba_all, df_summary_sdba_all, [("ranker", "NCSB-MaxRank"), ("ranker-sd-ncsb-lazy", "NCSB-Lazy")])
 print("\n")
+
+# sanitize
+df_iw_ltl = sanitize_results(df_iw_ltl, df_summary_iw_all, TIMEOUT_VAL)
+df_iw_automizer = sanitize_results(df_iw_automizer, df_summary_iw_all, TIMEOUT_VAL)
+df_sdba_ltl = sanitize_results(df_sdba_ltl, df_summary_sdba_all, TIMEOUT_VAL)
+df_sdba_automizer = sanitize_results(df_sdba_automizer, df_summary_sdba_all, TIMEOUT_VAL)
+
+# and plot...
+scatplot2(df_iw_automizer, df_iw_ltl, {'x': "ranker-nopost", 'y': "ranker-iw-orig-nopost",
+                                       'xname': "MiHay-Prune", 'yname': "MiHay", 'max': 15000}, color1='green', color2='red', save=True)
+scatplot2(df_sdba_automizer, df_sdba_ltl, {'x': "ranker-nopost", 'y': "ranker-sd-ncsb-lazy-nopost",
+                                           'xname': "NCSB-MaxRank", 'yname': "NCSB-Lazy", 'max': 15000}, color1='green', color2='red', save=True)
