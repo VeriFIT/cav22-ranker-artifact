@@ -2,12 +2,13 @@
 
 # Check the number of command-line arguments
 if [ \( "$#" -lt 1 \) ] ; then
-	echo "This script will run all experiments, including the tools that are not"
-	echo "in the graphs in the paper (expect long running time!!)"
+	echo "This script will run all experiments from <input-set>, including the tools that are not"
+	echo "in the graphs in the paper (expect long running time!!), unless set otherwise in [methods]"
 	echo
 	echo "usage: ${0} <input-set> [methods]"
 	echo
 	echo "   with <input-set> in {from_ltl_red, advanced-automata, random-all-compact}"
+	echo "   and [methods] being a semicolon-delimited list of methods (see bench/ba-compl.yaml)"
 	exit 1
 fi
 
