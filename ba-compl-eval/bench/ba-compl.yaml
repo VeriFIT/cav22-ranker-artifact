@@ -29,8 +29,9 @@ ranker:              # default
 ranker-tacas22:        # version from TACAS'22
   cmd: bin/ranker-tacas22-wrap.sh $1 --preprocess=copyheur
 
-ranker-iw-prune:     # simulation-based pruning of macrostate (from the submission) in the Miyano-Hayashi construction for inherently weak automata
-  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-prune-only
+# -- this is the default setting of ranker for IW
+# ranker-iw-prune:     # simulation-based pruning of macrostate (from the submission) in the Miyano-Hayashi construction for inherently weak automata
+#   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-prune-only
 
 ranker-iw-orig:      # original Miyano-Hayashi construction for inherently weak automata
   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --iw-orig-only
@@ -38,5 +39,6 @@ ranker-iw-orig:      # original Miyano-Hayashi construction for inherently weak 
 ranker-sd-ncsb-lazy: # NCSB-Lazy (from PLDI'18) for semi-deterministic BAs
   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --sd-ncsb-lazy-only
 
-ranker-sd-ncsb-maxrank:  # NCSB-MaxRank (from the submission) for semi-deterministic BAs
-  cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --sd-ncsb-maxrank-only
+# -- this is the default setting of ranker for SDBA
+# ranker-sd-ncsb-maxrank:  # NCSB-MaxRank (from the submission) for semi-deterministic BAs
+#   cmd: bin/ranker-wrap.sh $1 --preprocess=no-red --sd-ncsb-maxrank-only
