@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Check the number of command-line arguments
-if [ \( "$#" -lt 1 \) ] ; then
+if [ \( "$#" -lt 2 \) ] ; then
 	echo "This script will run all experiments from <input-set>, including the tools that are not"
 	echo "in the graphs in the paper (expect long running time!!), unless set otherwise in [methods]"
 	echo
-	echo "usage: ${0} <input-set> [methods]"
+	echo "usage: ${0} <input-set> <output-file> [methods]"
 	echo
 	echo "   with <input-set> in { ltl, random, automizer }"
 	echo "   and [methods] being a semicolon-delimited list of methods (see bench/ba-compl.yaml)"
@@ -13,10 +13,11 @@ if [ \( "$#" -lt 1 \) ] ; then
 fi
 
 INPUT="$1"
+OUTPUT="$2"
 
 METHODS=""
-if [ \( "$#" -eq 2 \) ] ; then
-	METHODS="-m $2"
+if [ \( "$#" -eq 3 \) ] ; then
+	METHODS="-m $3"
 fi
 
 # timeout in seconds
@@ -24,7 +25,7 @@ TIMEOUT=60
 
 BIN_DIR="$(pwd)/bin"
 INPUT_FILE="${INPUT}.input"
-TASK_FILE="../${INPUT}-to${TIMEOUT}.tasks"
+TASK_FILE="../${OUTPUT}-to${TIMEOUT}.tasks"
 
 export LD_LIBRARY_PATH="${BIN_DIR}"
 
