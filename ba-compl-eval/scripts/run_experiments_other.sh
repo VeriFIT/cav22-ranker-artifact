@@ -13,4 +13,5 @@ fi
 INPUT=$1
 OUTPUT=$2
 
-scripts/run_experiments.sh ${INPUT} ${OUTPUT} 'seminator;safra;piterman;schewe;fribourg;ltl2dstar;roll'
+scripts/run_experiments.sh ${INPUT} ${OUTPUT} 'seminator;safra;piterman;fribourg;ltl2dstar;roll'
+# scripts/run_experiments.sh ${INPUT} ${OUTPUT} 'seminator;safra;piterman;schewe;fribourg;ltl2dstar;roll'
