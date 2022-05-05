@@ -2,6 +2,9 @@
 #
 # auxiliary functions for results of Buchi automata benchmarks
 
+import datetime
+import pandas as pd
+
 import evallib as el               # this contains auxiliary functionality for evaluation of experiments
 
 # Connect a DF with results to DF with classification of inputs
