@@ -49,6 +49,7 @@ print(f'! # of automata from automizer after sanitization: {len(df_automizer)}')
 df_all = pd.concat([df_random, df_ltl, df_automizer])
 print(f'! # of automata from ALL after sanitization: {len(df_all)}')
 
+# compute summaries
 df_summary_random = summary_stats(df_random)
 df_summary_ltl = summary_stats(df_ltl)
 df_summary_automizer = summary_stats(df_automizer)
@@ -72,3 +73,35 @@ interesting = [
               ]
 
 df_summary_random.loc[[x + '-States' for x in interesting]]
+
+# sanitize results (substitute timeouts with TIMEOUT_VAL and 0 states with 1)
+states_min = 1
+
+def sanitize_results(df, df_summary_states):
+  # min and max states
+  states_max = df_summary_states['max'].max()
+  states_timeout = states_max * 1.1
+
+  # sanitizing NAs
+  for col in df.columns:
+      if re.search('-States$', col):
+          df[col].fillna(states_timeout, inplace=True)
+          df[col].replace(0, states_min, inplace=True)  # to remove 0 (in case of log graph)
+
+      if re.search('-runtime$', col):
+          df[col].fillna(TIMEOUT_VAL, inplace=True)
+          df.loc[df[col] < TIME_MIN, col] = TIME_MIN  # to remove 0 (in case of log graph)
+
+  return df
+
+df_random = sanitize_results(df_random, df_summary_all)
+df_ltl = sanitize_results(df_ltl, df_summary_all)
+df_automizer = sanitize_results(df_automizer, df_summary_all)
+
+
+# plot graphs for ranker/rankerOld  and ranker/spot
+scatplot3(df_random, df_ltl, df_automizer, {'x': "ranker-autfilt", 'y': "ranker-tacas22-autfilt",
+                                            'xname': "Ranker", 'yname': "OldRanker", 'max': 3000}, save=True)
+scatplot3(df_random, df_ltl, df_automizer, {'x': "ranker-autfilt", 'y': "spot-autfilt", 'max': 3000,
+                                            'xname': "Ranker", 'yname': "Spot"}, save=True)
+
