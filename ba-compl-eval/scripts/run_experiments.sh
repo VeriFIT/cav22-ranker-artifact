@@ -29,4 +29,4 @@ TASK_FILE="../${INPUT}-to${TIMEOUT}.tasks"
 export LD_LIBRARY_PATH="${BIN_DIR}"
 
 cd bench
-cat from_ltl_red.input | ./pycobench -t ${TIMEOUT} ${METHODS} -o ${TASK_FILE} ba-compl.yaml
+cat ${INPUT_FILE} | ./pycobench -t ${TIMEOUT} ${METHODS} -o ${TASK_FILE} ba-compl.yaml
