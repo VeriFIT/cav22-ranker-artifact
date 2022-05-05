@@ -4,6 +4,7 @@
 
 import datetime
 import pandas as pd
+import re as re
 
 import evallib as el               # this contains auxiliary functionality for evaluation of experiments
 
@@ -15,7 +16,7 @@ def connect_with_classification(df, clas_file):
 
 
 # prints results of classification
-def print_classification(df):
+def print_classification(df, dataset):
     df_empty = df[df['empty'] == 1]
     df_deterministic = df[df['deterministic'] == 1]
     df_deterministic_weak = df[(df['deterministic'] == 1) & (df['weak'] == 1)]
@@ -30,7 +31,7 @@ def print_classification(df):
     df_elevator_not_semi = df[(df['elevator'] == 1) & (df['semi deterministic'] == 0)]
     df_one_state = df[df['one-state'] == 1]
 
-    print(f"! Classification of input automata")
+    print(f"! Classification of input automata for \"{dataset}\"")
     print(f"!   # empty: {len(df_empty)}")
     print(f"!   # deterministic: {len(df_deterministic)}")
     print(f"!   # deterministic weak: {len(df_deterministic_weak)}")
