@@ -259,6 +259,8 @@ def print_win_table(df, df_summary, method):
                    "",
                    # "",
                    df_summary.loc[method_name]["timeouts"],
+                   df_summary.loc[method + "-runtime"]["mean"],
+                   df_summary.loc[method + "-runtime"]["median"],
                   ])
   dict_wins = compute_wins(df, method)
   for key, val in dict_wins.items():
@@ -271,6 +273,8 @@ def print_win_table(df, df_summary, method):
                      val['losses'],
                      # val['lossesTO'],
                      df_summary.loc[key]["timeouts"],
+                     df_summary.loc[key_pretty + "-runtime"]["mean"],
+                     df_summary.loc[key_pretty + "-runtime"]["median"],
                     ])
   headers_wins = ["method",
                   "mean",
@@ -280,6 +284,8 @@ def print_win_table(df, df_summary, method):
                   "losses",
                   # "losses-timeouts",
                   "timeouts",
+                  "mean time",
+                  "median time",
                  ]
   #table_to_file(tab_wins, headers_wins, out_prefix + "_table1right")
   print(tab.tabulate(tab_wins, headers=headers_wins, tablefmt="github"))
