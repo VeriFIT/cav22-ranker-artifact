@@ -6,7 +6,7 @@ if [ \( "$#" -ne 1 \) ] ; then
 	echo
 	echo "usage: ${0} <input-set>"
 	echo
-	echo "   with <input-set> in {from_ltl_red, advanced-automata, random-all-compact}"
+	echo "   with <input-set> in { ltl, random, automizer }"
 	exit 1
 fi
 

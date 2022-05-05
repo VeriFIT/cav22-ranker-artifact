@@ -7,7 +7,7 @@ if [ \( "$#" -lt 1 \) ] ; then
 	echo
 	echo "usage: ${0} <input-set> [methods]"
 	echo
-	echo "   with <input-set> in {from_ltl_red, advanced-automata, random-all-compact}"
+	echo "   with <input-set> in { ltl, random, automizer }"
 	echo "   and [methods] being a semicolon-delimited list of methods (see bench/ba-compl.yaml)"
 	exit 1
 fi
