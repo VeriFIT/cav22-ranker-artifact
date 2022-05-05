@@ -289,3 +289,19 @@ def print_win_table(df, df_summary, method):
                  ]
   #table_to_file(tab_wins, headers_wins, out_prefix + "_table1right")
   print(tab.tabulate(tab_wins, headers=headers_wins, tablefmt="github"))
+
+def print_opt_table(df, df_summary, methods):
+  tab_opt = []
+  for key, val in methods:
+      key_x = key + "-nopost-States"
+      tab_opt.append([val,
+                   df_summary.loc[key_x]["mean"],
+                   df_summary.loc[key_x]["median"],
+                  ])
+  headers_opt = ["method",
+                 "mean",
+                 "median",
+                ]
+  #table_to_file(tab_wins, headers_wins, out_prefix + "_table1right")
+  print(tab.tabulate(tab_opt, headers=headers_opt, tablefmt="github"))
+
