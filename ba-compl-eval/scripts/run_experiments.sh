@@ -23,6 +23,9 @@ fi
 # timeout in seconds
 TIMEOUT=60
 
+# number of jobs
+JOBS=1
+
 BIN_DIR="$(pwd)/bin"
 INPUT_FILE="${INPUT}.input"
 TASK_FILE="../${OUTPUT}-to${TIMEOUT}.tasks"
@@ -30,4 +33,4 @@ TASK_FILE="../${OUTPUT}-to${TIMEOUT}.tasks"
 export LD_LIBRARY_PATH="${BIN_DIR}"
 
 cd bench
-cat ${INPUT_FILE} | ./pycobench -t ${TIMEOUT} ${METHODS} -o ${TASK_FILE} ba-compl.yaml
+cat ${INPUT_FILE} | ./pycobench -t ${TIMEOUT} -j ${JOBS} ${METHODS} -o ${TASK_FILE} ba-compl.yaml
