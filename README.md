@@ -210,3 +210,51 @@ The replication is performed by the following sequence of steps:
      The plots are in the fig*.pdf files and the tables are in results.txt
      (with some other statistics).  Note that that tables in the paper are
      obtained by overlaying the tables in results.txt.
+
+  e) If you want to re-generate the outputs from the data we used in the paper,
+     copy the files ref_outputs/*-to300.csv to eval/*-to60.csv and run the
+     ./gen_results.py script.
+
+6. Additional experimentation with Ranker
+=========================================
+We encourage you to try your own experiments with Ranker.  Please read the
+following notes first:
+
+  a) Ranker is prepared in bin/ranker . You can run the tool with a file in the
+     standardized HOA or BA format (see below), e.g.,
+
+       $ bin/ranker automata/from_ltl/random_det_red/1.hoa
+
+     The complemented automaton is then printed on the standard output.
+     In order to see more flags and settings, run
+
+       $ bin/ranker --help
+
+     Regarding the HOA input, Ranker needs the input to be
+     a transition/state-based Büchi automaton (i.e., generalized or more
+     complex acceptance conditions are not supported).  In order to transform
+     the input to the required form, you can use Spot's autfilt:
+
+       $ bin/autfilt --buchi input.hoa > input-tba.hoa
+
+     The input formats are described at the following websites:
+
+     [HOA]: https://adl.github.io/hoaf/
+     [BA]: http://www.languageinclusion.org/doku.php?id=tools
+
+  b) The wrappers in bin/*-wrap.sh can be used to compare the sizes of results
+     of different tools in a uniformed way (they do not output the complement
+     automaton but only its size; in case you want to obtain the complement,
+     use the tool itself).
+
+  c) The source code of ranker is in pkgs/ranker/ .
+
+  d) You can run the correctness test, comparing the language equivalence of
+     results from Ranker and Spot, using Spot's autcross as follows:
+
+       $ util/sanity-check-file.sh bench/automizer.input
+       $ util/sanity-check-file.sh bench/ltl.input
+       $ util/sanity-check-file.sh bench/random.input
+
+    Note that Spot sometimes fails the test due to the limit of acceptance
+    conditions.  This is expected.
