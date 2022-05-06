@@ -1,6 +1,21 @@
+TL;DR
+-----
+We explicitly grant the artifact evaluation chairs of CAV'22 to download and
+distribute the artifact to the artifact evaluation committee members and the
+artifact evaluation committee members to evaluate the artifact, e.g., use,
+execute, and modify the artifact for the purpose of artifact evaluation.
+
+The artifact and the tool (Ranker) are under the MIT license (below); other
+provided tools/packages should also be under some sort of a free software
+license, if you wish to use them for other things than evaluation of the
+artifact, please consult their provided LICENSE files.
+
+
+Longer version
+--------------
 MIT License
 
-Copyright (c) 2022 Ondra Lengál
+Copyright (c) 2022 Vojtěch Havlena, Ondřej Lengál, and Barbora Šmahlíková
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
