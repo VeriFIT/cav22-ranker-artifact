@@ -76,7 +76,7 @@ perform the following sequence:
   d) Produce the plots and tables for the smoke test
 
      $ cd eval
-     $ ./gen_results.py | results.txt
+     $ ./gen_results.py | tee results.txt
 
      Again, this should go through smoothly.  The following files will be
      created in the eval/ directory:
@@ -90,6 +90,9 @@ perform the following sequence:
      In the smoke test, the plots in the pdf files will be populated by very
      little data points (possibly zero) and the tables in results.txt will not
      contain many values (sometimes there will even be nan).  This is expected.
+     You can view the pdf files e.g. using evince, e.g.,
+
+       $ evince fig_ranker-nopost_vs_ranker-iw-orig-nopost.pdf
 
   e) If you have come this far, congratulations, the smoke test has been
      successful.
@@ -148,10 +151,25 @@ The replication is performed by the following sequence of steps:
      some missing columns.
 
   c) Run the tests for Ranker and Spot.  Warning: this may take a long time
-     (each test from 30 mins to several hours).
+     (each test from 30 mins to several hours, the fastest one is the LTL, so
+     you can let that one go through; for the rest (Automizer, random), if you
+     do not have the time, kill them at some point (e.g. after one hour) and
+     use the so-far computed data).
 
+     $ ./run_minimal_ltl.sh
+     $ ./run_minimal_automizer.sh
+     $ ./run_minimal_random.sh
 
+  c) Collect the results
 
+     $ ./collect_results.sh
+
+  d) Produce the plots and tables
+
+     $ cd eval
+     $ ./gen_results.py | tee results.txt
+
+     The plots are in the fig*.pdf files and the tables are in results.txt
 
 
 
