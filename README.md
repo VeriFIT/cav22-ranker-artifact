@@ -21,6 +21,9 @@ categorize as "timeouts").  Providing more cores may be counterproductive; by
 default, the evaluation will run one task on each available core, which might
 cause interference, in particular wrt. memory (cf. details below).
 
+Note: if you have issues with the VM "hanging" occassionally, try turning off
+the audio output (there seems to be a related bug in some versions of VirtualBox).
+
 2. Structure
 ============
 
@@ -163,6 +166,8 @@ The replication is performed by the following sequence of steps:
   c) Collect the results
 
      $ ./collect_results.sh
+
+     Some warnings of missing elements might be printed out, they can be safely ignored.
 
   d) Produce the plots and tables
 
