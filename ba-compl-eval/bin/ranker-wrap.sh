@@ -19,7 +19,7 @@ autfilt_out=$(./bin/autfilt --high ${TMP} | grep "^States:" | sed 's/^States/aut
 ret=$?
 rm ${TMP}
 
-cat ${TMP_STAT} | sed 's/^Generated states:/nopost-States:/' | sed 's/^Generated trans:/nopost-Transitions:/'
+cat ${TMP_STAT} | sed 's/^Generated-states:/nopost-States:/' | sed 's/^Generated-trans:/nopost-Transitions:/'
 echo ${autfilt_out}
 
 rm ${TMP_STAT}
