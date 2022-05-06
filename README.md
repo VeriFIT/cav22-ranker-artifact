@@ -170,6 +170,43 @@ The replication is performed by the following sequence of steps:
      $ ./gen_results.py | tee results.txt
 
      The plots are in the fig*.pdf files and the tables are in results.txt
+     (with some other statistics).  Note that that tables in the paper are
+     obtained by overlaying the tables in results.txt.
 
+5. Replication of results for other tools (> 1 day)
+===================================================
+This step replicates the results for the rest of the tools, and
+obtains the following outputs:
 
+  * Table 2, rows Piterman, Safra, Fribourg, LTL2dstar, Seminator 2, ROLL
+  * Table 3, rows Piterman, Safra, Fribourg, LTL2dstar, Seminator 2, ROLL
 
+The replication is performed by the following sequence of steps:
+
+  a) Change directory to the evaluation environment
+
+     $ cd ~/cav22-ranker-artifact/ba-compl-eval
+
+     We assume that the results from the previous step (replication for Ranker
+     and Spot) are still in the directory.
+
+  b) Run the tests for the other tools.  Warning: this may take a very long time
+     (each test in the order of hours/days; if you do not have the time, kill
+     them at some point and use the so-far computed data).
+
+     $ ./run_other_ltl.sh
+     $ ./run_other_automizer.sh
+     $ ./run_other_random.sh
+
+  c) Collect the results
+
+     $ ./collect_results.sh
+
+  d) Produce the plots and tables
+
+     $ cd eval
+     $ ./gen_results.py | tee results.txt
+
+     The plots are in the fig*.pdf files and the tables are in results.txt
+     (with some other statistics).  Note that that tables in the paper are
+     obtained by overlaying the tables in results.txt.
