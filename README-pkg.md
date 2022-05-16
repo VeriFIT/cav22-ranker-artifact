@@ -18,12 +18,14 @@ containing Ubuntu 18.04 LTS.  We used one x86_64 core running at 2.30 GHz and
 The following extra packages may need to be installed (or similar packages at
 the given system):
 
+  * cmake
   * python3-dev
   * maven
-  * libbost-dev
+  * libboost-dev
   * libboost-regex-dev
   * python3-pip
   * openjdk-17-jre
+  * openjdk-17-jdk-headless
   * libjpeg-dev
 
 Furthermore, the following Python packages should also be installed using pip3:

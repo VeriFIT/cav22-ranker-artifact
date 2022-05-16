@@ -6,16 +6,19 @@ if [ \( "$#" -lt 1 \) ] ; then
 	exit 1
 fi
 
+BINDIR=$(dirname $(readlink -f $0))
+SPOTEXE="${BINDIR}/autfilt"
+
 INPUT=$1
 shift
 params="$*"
 
 TMP=$(mktemp)
 TMP_STAT=$(mktemp)
-./bin/ranker --stats ${params} ${INPUT} > ${TMP} 2> ${TMP_STAT} || exit 1
+SPOTEXE=${SPOTEXE} ${BINDIR}/ranker --stats ${params} ${INPUT} > ${TMP} 2> ${TMP_STAT} || exit 1
 
 set -o pipefail
-autfilt_out=$(./bin/autfilt --high ${TMP} | grep "^States:" | sed 's/^States/autfilt-States/')
+autfilt_out=$(LD_LIBRARY_PATH=${BINDIR} ${SPOTEXE} --high ${TMP} | grep "^States:" | sed 's/^States/autfilt-States/')
 ret=$?
 rm ${TMP}
 
