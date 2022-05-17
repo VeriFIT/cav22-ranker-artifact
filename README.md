@@ -240,7 +240,7 @@ following notes first:
      complex acceptance conditions are not supported).  In order to transform
      the input to the required form, you can use Spot's autfilt:
 
-       $ bin/autfilt --buchi input.hoa > input-tba.hoa
+       $ bin/autfilt --ba input.hoa > input-tba.hoa
 
      The input formats are described at the following websites:
 
